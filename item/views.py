@@ -4,7 +4,7 @@ from .models import Item, Photo
 
 
 def home(request):
-    photo = Photo.objects.get(pk=2)
+    photo = Photo.objects.get(pk=3)
     context = {
         'photo': photo,
     }

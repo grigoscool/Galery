@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from django.utils.text import slugify
+from stdimage import StdImageField
 
 
 class Item(models.Model):
@@ -22,10 +24,11 @@ class Item(models.Model):
 class Photo(models.Model):
     item = models.ForeignKey(Item, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='photos')
+    image = StdImageField(upload_to='photos', variations={'thumbnail': (100, 75)})
     caption = models.CharField(
         max_length=250, blank=True
     )
+    slug = models.SlugField(blank=True, null=True)
 
     class Meta:
         ordering = ['title']
@@ -38,3 +41,8 @@ class Photo(models.Model):
             'photo-detail',
             kwargs={'object_id': self.id}
         )
+
+    def save(self, *args, **kwargs):
+        if self.slug is None:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
