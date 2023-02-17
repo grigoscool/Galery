@@ -11,5 +11,5 @@ class ItemAdmin(admin.ModelAdmin):
     inlines = [PhotoInline]
 
 
-admin.site.register(ItemAdmin, Item)
+admin.site.register(Item, ItemAdmin)
 admin.site.register(Photo)

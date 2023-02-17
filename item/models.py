@@ -20,7 +20,7 @@ class Item(models.Model):
 
 
 class Photo(models.Model):
-    item = models.ForeignKey(Item)
+    item = models.ForeignKey(Item, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=100)
     image = models.ImageField(upload_to='photos')
     caption = models.CharField(
