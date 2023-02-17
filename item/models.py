@@ -1,7 +1,9 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
-from stdimage import StdImageField
+
+
+from .fields import ImageRestrictedFileField
 
 
 class Item(models.Model):
@@ -24,7 +26,10 @@ class Item(models.Model):
 class Photo(models.Model):
     item = models.ForeignKey(Item, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=100)
-    image = StdImageField(upload_to='photos', variations={'thumbnail': (100, 75)})
+    image = ImageRestrictedFileField(
+        upload_to='photos', max_upload_size=524288,
+        blank=True, null=True,
+    )
     caption = models.CharField(
         max_length=250, blank=True
     )
